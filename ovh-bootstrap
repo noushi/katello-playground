@@ -25,7 +25,7 @@ install_virtualbox() {
 
 _setup_virtualbox_repo() {
     cd /etc/yum.repos.d/
-    wget  http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+    wget -nc http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
     yum update 
 }
 
