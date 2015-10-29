@@ -1,6 +1,21 @@
 #!/bin/bash
 # CentOS 7 with the module-less OVH kernel...
 
+install_stock_kernel() { #aka fix_ovh_kernel()!
+    yum -y install kernel
+    grub2-mkconfig -o /boot/grub2/grub.cfg
+    grub2-set-default 1
+
+#    VERSION=$( yum info kernel |  _valueof Version )
+#    RELEASE=$( yum info kernel |  _valueof Release )
+
+#    echo $VERSION-$RELEASE.x86_64
+}
+
+_valueof() {
+    grep "$1" | IFS=:  awk '{ print $3; }'
+}
+
 
 install_virtualbox() {
     _setup_virtualbox_repo
@@ -43,10 +58,12 @@ install_vagrant() {
 
 install_tools() {
     yum -y install epel-release
-    
+    yum update
+    yum -y install emacs byobu
 }
 
-
+#install_stock_kernel
+install_tools
 install_libvirt
 install_kernel_devel
 install_virtualbox
