@@ -1,0 +1,53 @@
+#!/bin/bash
+# CentOS 7 with the module-less OVH kernel...
+
+
+install_virtualbox() {
+    _setup_virtualbox_repo
+    _install_virtualbox_43
+#    _install_virtualbox_50
+}
+
+_setup_virtualbox_repo() {
+    cd /etc/yum.repos.d/
+    wget  http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+    yum update 
+}
+
+_install_virtualbox_43() {
+    yum -y install VirtualBox-4.3
+    /etc/init.d/vboxdrv  setup        
+}
+
+_install_virtualbox_50() {
+    yum -y install VirtualBox-5.0
+    /usr/lib/virtualbox/vboxdrv.sh setup
+}
+
+
+install_libvirt() {
+    yum -y install @virtualization libvirt-devel
+}
+
+
+install_kernel_devel() {
+    yum -y groupinstall "Development Tools"
+    yum -y install kernel-devel
+}
+
+
+install_vagrant() {
+    yum -y install https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.rpm
+    vagrant plugin install vagrant-libvirt
+}
+
+install_tools() {
+    yum -y install epel-release
+    
+}
+
+
+install_libvirt
+install_kernel_devel
+install_virtualbox
+install_vagrant
